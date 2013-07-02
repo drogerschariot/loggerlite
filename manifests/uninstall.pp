@@ -1,6 +1,9 @@
 # Class: loggerlitePack
 #
-class loggerlite::uninstall {
+class loggerlite::uninstall inherits loggerlite {
+
+	require loggerlite::params
+
 	case $osfamily {
 		"Darwin": {
 			file { "/Applications/Logger Lite":
@@ -14,7 +17,9 @@ class loggerlite::uninstall {
 
 		}
 		"Windows": {
-			# code
+			Package[ "Logger Lite 1.6.1" ]{
+				ensure		=> absent,
+			}
 		}
 		default: {
 			fail("Unknown OS!")
