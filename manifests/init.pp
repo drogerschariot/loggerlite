@@ -2,14 +2,31 @@
 #
 #
 class loggerlite(
-	$loggerlite_pkg = "loggerlite::params::loggerlite_pkg",
-	$provider = loggerlite::params::loggerlite_pkg
-	) {
+	$loggerlite_ext = $loggerlite::params::loggerlite_ext,
+	$provider = $loggerlite::params::provider,
+	$version = $loggerlite::params::version,
+	$package_dir = $loggerlite::params::package_dir,
+	$owner = $loggerlite::params::owner,
+	) inherits loggerlite::params {
+
+	file { $package_dir:
+		ensure 		=> directory,
+		owner		=> $owner,
+	}
+
+	file { "${package_dir}/LoggerLite${version}${loggerlite_ext}":
+		ensure 		=> present,
+		source		=> "puppet:///modules/loggerlite/LoggerLite${version}${loggerlite_ext}",
+		owner		=> $owner,
+		require		=> File[ $package_dir ],
+
+	}
 
 	package { "loggerlite":
 		ensure 		=> installed,
 		provider	=> $provider,
-		source		=> 'puppet:///modules/loggerlite/LoggerLite161${$loggerlite_pkg}',
+		source		=> "${package_dir}/LoggerLite${version}${loggerlite_ext}",
+		require		=> File[ "${package_dir}/LoggerLite${version}${loggerlite_ext}" ],
 	}
 	
 }
