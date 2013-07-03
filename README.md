@@ -30,3 +30,8 @@ class { "loggerlite":
 }
 </code>
 </pre>
+
+###Uninstall
+<pre>
+<code>include loggerlite::uninstall</code>
+</pre>
