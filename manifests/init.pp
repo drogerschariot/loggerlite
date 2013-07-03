@@ -11,6 +11,8 @@ class loggerlite(
 	$install_options = $loggerlite::params::install_options,
 	) inherits loggerlite::params {
 
+
+
 	file { $package_dir:
 		ensure 		=> directory,
 		owner		=> $owner,
@@ -18,9 +20,9 @@ class loggerlite(
 		mode 		=> 775,
 	}
 
-	file { "${package_dir}/LoggerLite${version}${loggerlite_ext}":
+	file { "${package_dir}/LoggerLite-${version}${loggerlite_ext}":
 		ensure 		=> present,
-		source		=> "puppet:///modules/loggerlite/LoggerLite${version}${loggerlite_ext}",
+		source		=> "puppet:///modules/loggerlite/LoggerLite-${version}${loggerlite_ext}",
 		owner		=> $owner,
 		require		=> File[ $package_dir ],
 		group 		=> $group,
@@ -28,12 +30,12 @@ class loggerlite(
 
 	}
 
-	package { "Logger Lite 1.6.1":
+	package { "Logger Lite ${version}":
 		ensure 			=> installed,
 		provider		=> $provider,
-		source			=> "${package_dir}/LoggerLite${version}${loggerlite_ext}",
+		source			=> "${package_dir}/LoggerLite-${version}${loggerlite_ext}",
 		install_options	=> $install_options,
-		require			=> File[ "${package_dir}/LoggerLite${version}${loggerlite_ext}" ],
+		require			=> File[ "${package_dir}/LoggerLite-${version}${loggerlite_ext}" ],
 	}
 	
 }

@@ -3,7 +3,8 @@
 #
 class loggerlite::params {
 
-	$version = '161'
+	$version = '1.6.1'
+	
 	case $osfamily {
 			"Darwin": {
 				$loggerlite_ext 	= '.dmg'
